@@ -83,7 +83,7 @@ export default async function RegisterPage() {
                 </div>
               </div>
               <p className="text-sm text-muted-foreground mt-4">
-                "Like a perfectly brewed cup of coffee, your health deserves precision and care."
+                &quot;Like a perfectly brewed cup of coffee, your health deserves precision and care.&quot;
               </p>
             </div>
           </div>

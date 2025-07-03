@@ -87,7 +87,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
                 <Coffee className="h-8 w-8 text-primary flex-shrink-0 mt-1" />
                 <div>
                   <p className="text-foreground font-medium mb-2">
-                    "Every calorie tracked is a step towards your goals."
+                    &quot;Every calorie tracked is a step towards your goals.&quot;
                   </p>
                   <p className="text-sm text-muted-foreground">
                     Your personalized nutrition data is waiting for you.
@@ -122,7 +122,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
               </Suspense>
               <div className="mt-6 text-center">
                 <p className="text-sm text-muted-foreground">
-                  Don't have an account?{" "}
+                  Don&apos;t have an account?{" "}
                   <Link
                     href="/register"
                     className="font-medium text-primary hover:text-primary/90 transition-colors"

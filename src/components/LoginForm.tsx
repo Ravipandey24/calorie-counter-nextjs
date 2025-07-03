@@ -8,7 +8,6 @@ import { toast } from "sonner";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 
 import {
   Form,
@@ -22,7 +21,8 @@ import { loginSchema } from "@/lib/validations";
 import { authApi } from "@/lib/api";
 import { useAuthStore } from "@/lib/auth";
 import type { LoginData } from "@/types";
-import { Mail, Lock, LogIn, UserPlus, Loader2 } from "lucide-react";
+import { Mail, Lock, LogIn, Loader2 } from "lucide-react";
+import { AxiosError } from "axios";
 
 interface LoginFormProps {
   callbackUrl?: string;
@@ -57,11 +57,17 @@ export default function LoginForm({
 
       // Redirect to callback URL or dashboard
       router.push(callbackUrl);
-    } catch (error: any) {
-      toast.error("Login failed", {
-        description:
-          error?.response?.data?.message || "Please check your credentials and try again.",
-      });
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response) {
+        toast.error("Login failed", {
+          description:
+            error.response.data?.message || "Please check your credentials and try again.",
+        });
+      } else {
+        toast.error("Login failed", {
+          description: "Please check your credentials and try again.",
+        });
+      }
     } finally {
       setIsLoading(false);
     }

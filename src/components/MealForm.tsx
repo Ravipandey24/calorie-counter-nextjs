@@ -10,8 +10,9 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { calorieSchema, type CalorieForm } from '@/lib/validations';
 import { caloriesApi } from '@/lib/api';
-import type { CalorieResponse, ApiError } from '@/types';
-import { Search, Utensils, Hash, RotateCcw, Coffee } from 'lucide-react';
+import type { CalorieResponse } from '@/types';
+import { Search, Hash, RotateCcw, Coffee } from 'lucide-react';
+import { AxiosError } from 'axios';
 
 interface MealFormProps {
   onResult?: (result: CalorieResponse | null) => void;
@@ -38,9 +39,12 @@ export default function MealForm({ onResult }: MealFormProps) {
       setResult(response);
       onResult?.(response); // Pass result to parent
       toast.success(`Nutrition analysis complete for ${data.dish_name}!`);
-    } catch (err: any) {
-      const apiError = err.response?.data as ApiError;
-      toast.error(apiError?.message || 'Failed to get nutrition information. Please try again.');
+    } catch (error: unknown) {
+      if (error instanceof AxiosError && error.response) {
+        toast.error(error.response.data?.message || 'Failed to get nutrition information. Please try again.');
+      } else {
+        toast.error('Failed to get nutrition information. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }

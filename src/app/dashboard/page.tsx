@@ -3,17 +3,11 @@ import { redirect } from "next/navigation";
 import { getServerAuth } from "@/lib/auth-server";
 import DashboardContent from "@/components/DashboardContent";
 import { DotPattern } from "@/components/magicui/dot-pattern";
-import { AuroraText } from "@/components/magicui/aurora-text";
 import { Coffee } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-interface DashboardPageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
 
-export default async function DashboardPage({
-  searchParams,
-}: DashboardPageProps) {
+export default async function DashboardPage() {
   // Server-side authentication check
   const auth = await getServerAuth();
 
@@ -38,7 +32,7 @@ export default async function DashboardPage({
                 <div className="absolute -top-1 -right-1 w-3 h-3 bg-chart-4 rounded-full animate-pulse"></div>
               </div>
               <h1 className="text-4xl font-bold text-primary/70">
-                {auth.user?.first_name}'s Dashboard
+                {auth.user?.first_name}&apos;s Dashboard
               </h1>
             </div>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">

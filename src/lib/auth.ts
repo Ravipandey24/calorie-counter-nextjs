@@ -46,9 +46,8 @@ const createAuthStorage = (): StateStorage => ({
 });
 
 export const useAuthStore = create<AuthState>()(
-  // @ts-expect-error // Zustand expects a function here, but we are using a custom storage
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       token: null,
       isAuthenticated: false,
