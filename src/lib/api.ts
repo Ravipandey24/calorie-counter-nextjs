@@ -21,7 +21,8 @@ api.interceptors.request.use((config) => {
           config.headers.Authorization = `Bearer ${state.token}`;
         }
       } catch (error) {
-        console.error('Error parsing auth storage:', error);
+        // Silently handle auth storage parsing errors to avoid console debugger issues
+        localStorage.removeItem('auth-storage');
       }
     }
   }
@@ -32,18 +33,30 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 401) {
-      // Clear auth on 401 and show toast
-      if (typeof window !== 'undefined') {
-        localStorage.removeItem('auth-storage');
-        toast.error('Your session has expired. Please sign in again.');
-        window.location.href = '/login';
+    // Prevent debugger from getting stuck by handling errors gracefully
+    try {
+      if (error.response?.status === 401) {
+        // Clear auth on 401 and show toast
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('auth-storage');
+          toast.error('Your session has expired. Please sign in again.');
+          window.location.href = '/login';
+        }
+      } else if (error.response?.status === 429) {
+        // Handle rate limiting with countdown timer
+        const retryAfter = error.response?.data?.retryAfter || 60; // Default to 60 seconds if not provided
+        showRateLimitToast(retryAfter);
+      } else if (error.response?.status >= 500) {
+        // Handle server errors
+        toast.error('Server error occurred. Please try again later.');
+      } else if (error.code === 'NETWORK_ERROR' || !error.response) {
+        // Handle network errors
+        toast.error('Network error. Please check your connection.');
       }
-    } else if (error.response?.status === 429) {
-      // Handle rate limiting with countdown timer
-      const retryAfter = error.response?.data?.retryAfter || 60; // Default to 60 seconds if not provided
-      showRateLimitToast(retryAfter);
+    } catch (handlingError) {
+      // Silently handle any errors in error handling to prevent debugger issues
     }
+    
     return Promise.reject(error);
   }
 );
@@ -103,34 +116,53 @@ const showRateLimitToast = (retryAfterSeconds: number) => {
         duration: 3000,
       });
     } else {
-      // Try to update the existing toast content via DOM
-      const toastElements = document.querySelectorAll('[data-sonner-toast]');
-      toastElements.forEach((element) => {
-        const toastContent = element.querySelector('[data-description], [data-title]');
-        if (toastContent && toastContent.textContent?.includes('Too many requests')) {
-          toastContent.textContent = `Too many requests. Please try again in ${formatTime(timeRemaining)}`;
-        }
-      });
+      // Safely try to update the existing toast content via DOM
+      try {
+        const toastElements = document.querySelectorAll('[data-sonner-toast]');
+        toastElements.forEach((element) => {
+          const toastContent = element.querySelector('[data-description], [data-title]');
+          if (toastContent && toastContent.textContent?.includes('Too many requests')) {
+            toastContent.textContent = `Too many requests. Please try again in ${formatTime(timeRemaining)}`;
+          }
+        });
+      } catch (domError) {
+        // Silently handle DOM manipulation errors to prevent debugger issues
+      }
     }
   }, 1000);
 };
 
 export const authApi = {
   register: async (data: RegisterData): Promise<AuthResponse> => {
-    const response = await api.post('/auth/register', data);
-    return response.data;
+    try {
+      const response = await api.post('/auth/register', data);
+      return response.data;
+    } catch (error) {
+      // Re-throw with proper error handling to prevent debugger issues
+      throw error;
+    }
   },
 
   login: async (data: LoginData): Promise<AuthResponse> => {
-    const response = await api.post('/auth/login', data);
-    return response.data;
+    try {
+      const response = await api.post('/auth/login', data);
+      return response.data;
+    } catch (error) {
+      // Re-throw with proper error handling to prevent debugger issues
+      throw error;
+    }
   },
 };
 
 export const caloriesApi = {
   getCalories: async (data: CalorieRequest): Promise<CalorieResponse> => {
-    const response = await api.post('/get-calories', data);
-    return response.data;
+    try {
+      const response = await api.post('/get-calories', data);
+      return response.data;
+    } catch (error) {
+      // Re-throw with proper error handling to prevent debugger issues
+      throw error;
+    }
   },
 };
 

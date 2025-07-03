@@ -28,12 +28,7 @@ interface HeaderProps {
 
 export default function Header({ serverAuth }: HeaderProps) {
   const router = useRouter();
-  const { isAuthenticated: clientAuth, user: clientUser, logout, hydrated } = useAuthStore();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const { isAuthenticated: clientAuth, user: clientUser, logout } = useAuthStore();
 
   const handleLogout = () => {
     logout();
@@ -41,8 +36,8 @@ export default function Header({ serverAuth }: HeaderProps) {
   };
 
   // Use server auth for SSR, then client auth after hydration
-  const isAuthenticated = mounted && hydrated ? clientAuth : (serverAuth?.isAuthenticated ?? false);
-  const user = mounted && hydrated ? clientUser : serverAuth?.user;
+  const isAuthenticated = serverAuth?.isAuthenticated ?? false;
+  const user = serverAuth?.user;
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">

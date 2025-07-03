@@ -17,11 +17,11 @@ export default async function DashboardPage() {
 
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-background via-secondary/30 to-accent/50">
-      <DotPattern
+      {/* <DotPattern
         className={cn(
           "[mask-image:radial-gradient(800px_circle_at_center,white,transparent)]"
         )}  
-      />
+      /> */}
       <div className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-6xl mx-auto">
           {/* Header Section */}

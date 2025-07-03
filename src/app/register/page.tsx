@@ -17,11 +17,11 @@ export default async function RegisterPage() {
   }
   return (
     <div className="relative min-h-screen bg-gradient-to-br from-background via-secondary/30 to-accent/50">
-      <DotPattern
+      {/* <DotPattern
         className={cn(
           "[mask-image:radial-gradient(600px_circle_at_center,white,transparent)]"
         )}
-      />
+      /> */}
       <div className="container mx-auto px-4 py-8 min-h-screen flex items-center justify-center relative z-10">
         <div className="w-full max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
           {/* Left side - Branding and Benefits */}

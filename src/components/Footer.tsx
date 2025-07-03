@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Coffee, BarChart3, LogIn, UserPlus, HelpCircle, Shield, FileText, Mail, Database, TrendingUp } from 'lucide-react';
+import { Coffee, BarChart3, LogIn, UserPlus, HelpCircle, Shield, FileText, Mail, Database, TrendingUp, Github } from 'lucide-react';
 import { AuroraText } from '@/components/magicui/aurora-text';
 
 export default function Footer() {
@@ -95,6 +95,17 @@ export default function Footer() {
                 <a href="#" className="text-sm text-muted-foreground hover:text-chart-4 transition-all duration-300 flex items-center gap-2 group">
                   <Mail className="h-3 w-3 group-hover:scale-110 transition-transform duration-300" />
                   Contact Us
+                </a>
+              </li>
+              <li>
+                <a 
+                  href="https://github.com/Ravipandey24/calorie-counter-nextjs" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-primary transition-all duration-300 flex items-center gap-2 group"
+                >
+                  <Github className="h-3 w-3 group-hover:scale-110 transition-transform duration-300" />
+                  View on GitHub
                 </a>
               </li>
             </ul>

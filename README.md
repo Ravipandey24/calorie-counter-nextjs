@@ -1,191 +1,238 @@
-# Calorie Counter Frontend
+# 🥗 Calorie Counter Frontend
 
-A modern Next.js frontend application for tracking calorie information with server-side authentication and SSR support.
+A modern Next.js application for tracking calories with server-side authentication, USDA FoodData Central API integration, and advanced UI components.
 
-## Features
+## ✨ Key Features
 
-- **Server-Side Authentication**: Full SSR support with JWT verification
-- **Route Protection**: Middleware-based authentication with automatic redirects
-- **Modern UI**: Built with Tailwind CSS and shadcn/ui components
-- **State Management**: Zustand with persistence and SSR compatibility
-- **Type Safety**: Full TypeScript support with runtime environment validation
-- **Dark Mode**: Complete theme support with system detection
-- **Responsive Design**: Mobile-first approach with modern UX patterns
+- **🔐 SSR Authentication**: JWT verification with route protection and auto-refresh
+- **🎨 Modern UI**: Tailwind CSS v4 + shadcn/ui + custom Magic UI components
+- **📊 Real-time Tracking**: USDA API integration with macro nutrition breakdown
+- **🌙 Dark Mode**: Complete theme support with system detection
+- **📱 Responsive**: Mobile-first design with interactive charts
+- **⚡ Performance**: Turbopack dev builds, code splitting, and optimizations
 
-## Technology Stack
+## 🚀 Tech Stack
 
-- **Framework**: Next.js 15 (App Router)
-- **Styling**: Tailwind CSS + shadcn/ui
-- **State Management**: Zustand with persistence
-- **Validation**: Zod with react-hook-form
-- **Authentication**: JWT with server-side verification
-- **HTTP Client**: Axios with interceptors
-- **Package Manager**: pnpm
+**Core**: Next.js 15 (App Router) • React 19 • TypeScript • pnpm  
+**UI**: Tailwind CSS v4 • shadcn/ui • Framer Motion • Lucide React  
+**State**: Zustand with persistence • React Hook Form • Zod validation  
+**Auth**: JOSE (JWT) • HTTP-only cookies • Next.js middleware  
+**Data**: Axios with interceptors • @t3-oss/env-nextjs
 
-## Quick Start
-
-### 1. Environment Setup
-
-Copy the example environment file and configure it:
+## 🚀 Quick Start
 
 ```bash
+# 1. Setup environment
 cp .env.example .env.local
-```
+# Edit .env.local with your configuration
 
-Edit `.env.local` with your configuration:
-
-```env
-# Backend API URL (required)
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
-
-# JWT Secret Key - MUST match your backend (required)
-JWT_SECRET=your-super-secure-jwt-secret-key-minimum-32-characters-long
-```
-
-**⚠️ Important Notes:**
-- The `JWT_SECRET` must be **at least 32 characters long**
-- The `JWT_SECRET` must **exactly match** the one used by your backend
-- Never commit `.env.local` to version control
-- Generate a secure JWT secret with: `openssl rand -base64 32`
-
-### 2. Installation & Development
-
-```bash
-# Install dependencies
+# 2. Install and run
 pnpm install
-
-# Start development server
 pnpm dev
-
 # Open http://localhost:3000
 ```
 
-## Environment Variables
+### Environment Variables
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `NEXT_PUBLIC_API_BASE_URL` | ✅ | Backend API URL (e.g., `http://localhost:3001`) |
+| `JWT_SECRET` | ✅ | JWT secret key (min 32 chars, must match backend) |
 
-| Variable | Required | Description | Example |
-|----------|----------|-------------|---------|
-| `NEXT_PUBLIC_API_BASE_URL` | ✅ Yes | Backend API base URL | `http://localhost:3001` |
-| `JWT_SECRET` | ✅ Yes | JWT secret key (min 32 chars) | Generated with `openssl rand -base64 32` |
-| `SKIP_ENV_VALIDATION` | ❌ No | Skip env validation during build | `true` |
+**Generate JWT secret**: `openssl rand -base64 32`
 
-### Environment Validation
-
-This project uses [@t3-oss/env-nextjs](https://env.t3.gg/) for type-safe environment validation:
-
-- **Build-time validation**: Invalid configuration prevents deployment
-- **Runtime type safety**: Full TypeScript support for environment variables
-- **Auto-completion**: IntelliSense for all environment variables
-
-## Authentication System
-
-### Server-Side Authentication
-- JWT tokens are verified on the server using middleware
-- Protected routes automatically redirect to login
-- Auth state is available in server components
-- Full SSR support with hydration safety
-
-### Route Protection
-The middleware automatically handles:
-- Redirecting unauthenticated users from protected routes
-- Redirecting authenticated users away from auth pages
-- Setting auth headers for server components
-- Callback URL support for post-login redirection
-
-### Protected Routes
-- `/dashboard` - Requires authentication
-- `/login` - Redirects to dashboard if authenticated
-- `/register` - Redirects to dashboard if authenticated
-
-## Project Structure
+## 📁 Project Structure
 
 ```
-src/
-├── app/                    # Next.js app router pages
-│   ├── dashboard/         # Protected dashboard page
-│   ├── login/            # Login page with SSR auth check
-│   ├── register/         # Registration page with SSR auth check
-│   └── layout.tsx        # Root layout with providers
-├── components/           # React components
-│   ├── ui/              # shadcn/ui components
-│   ├── AuthProvider.tsx # Zustand hydration provider
-│   ├── Header.tsx       # Navigation with auth state
-│   ├── ServerHeader.tsx # SSR wrapper for Header
-│   └── ...              # Feature components
-├── lib/                 # Utility libraries
-│   ├── auth.ts         # Client-side auth store
-│   ├── auth-server.ts  # Server-side auth utilities
-│   ├── api.ts          # HTTP client configuration
-│   └── validations.ts  # Zod schemas
-├── hooks/              # Custom React hooks
-├── types/              # TypeScript type definitions
-├── env.ts              # Environment validation
-└── middleware.ts       # Next.js middleware for route protection
+frontend/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── layout.tsx         # Root layout + providers
+│   │   ├── page.tsx           # Landing page
+│   │   ├── dashboard/         # Protected calorie tracking
+│   │   ├── login/             # Authentication pages
+│   │   └── register/
+│   │
+│   ├── components/            # React components
+│   │   ├── ui/               # shadcn/ui base components
+│   │   ├── magicui/          # Custom animated components
+│   │   ├── DashboardContent.tsx  # Main dashboard logic
+│   │   ├── MealForm.tsx      # Calorie input form
+│   │   ├── ResultCard.tsx    # Nutrition display
+│   │   └── [Auth/Layout components]
+│   │
+│   ├── lib/                  # Utilities & configuration
+│   │   ├── auth.ts          # Zustand auth store
+│   │   ├── auth-server.ts   # Server-side auth utils
+│   │   ├── api.ts           # Axios HTTP client
+│   │   └── validations.ts   # Zod schemas
+│   │
+│   ├── hooks/               # Custom React hooks
+│   ├── types/               # TypeScript definitions
+│   ├── env.ts              # Environment validation
+│   └── middleware.ts       # Route protection
+│
+├── public/                 # Static assets
+└── [Config files]         # Next.js, Tailwind, TypeScript, etc.
 ```
 
-## API Integration
+## 🏛️ Architecture & Implementation
 
-### Authentication Endpoints
-- `POST /register` - User registration
-- `POST /login` - User authentication
+### 🔄 Authentication Flow
+```
+User Request → Middleware → JWT Verification → Route Protection
+                    ↓
+Protected Routes: /dashboard (auth required)
+Auth Routes: /login, /register (redirect if authenticated)
+```
 
-### Application Endpoints  
-- `POST /get-calories` - Get calorie information for dishes
+### 🧠 State Management
+- **Auth Store**: Zustand with persistence + HTTP-only cookies
+- **Meal State**: Local component state with auto-increment IDs
+- **Form State**: React Hook Form + Zod validation
+- **Theme State**: next-themes with system detection
 
-### Error Handling
-- Automatic token refresh on 401 responses
-- Consistent error messaging with toast notifications
-- Network error handling with user feedback
+### 🎨 Component Architecture
+```
+Layout: RootLayout → ThemeProvider → ServerHeader → Content → Footer
+Dashboard: DashboardContent → MealForm + ResultCard[] + Charts
+Auth: LoginForm/RegisterForm → API calls → Auth store updates
+UI: shadcn/ui base + Magic UI animations + Custom components
+```
 
-## Development Features
+## 🔗 API Integration
 
-### Type Safety
-- Complete TypeScript coverage
-- Runtime environment validation with @t3-oss/env-nextjs
-- Zod schemas for all API requests/responses
+### Endpoints
+```typescript
+// Authentication
+POST /register { first_name, last_name, email, password }
+POST /login { email, password }
 
-### State Management
-- Zustand store with persistence
-- SSR-compatible hydration
-- Automatic cookie management for server-side access
+// Calorie Tracking
+POST /get-calories { dish_name: string, servings: number }
+// Returns: { total_calories, macronutrients, usda_matches, confidence_level }
 
-### Styling
-- shadcn/ui design system
-- Consistent color variables
-- Dark/light mode support
-- Responsive design patterns
+// Health Check
+GET /health
+```
 
-## Building for Production
+### HTTP Client Features
+- **Auto-token injection**: Axios interceptors add JWT to requests
+- **Error handling**: 401 → auto-logout, 429 → rate limit countdown
+- **Retry logic**: Exponential backoff for network errors
+- **Toast notifications**: User-friendly error messages
 
-1. Build the application:
-   ```bash
-   pnpm build
-   ```
+### Security
+- **JWT verification**: Server-side with JOSE library
+- **HTTP-only cookies**: Secure token storage for SSR
+- **CSRF protection**: SameSite=strict cookies
+- **Rate limiting**: Backend integration with countdown UI
 
-2. Start the production server:
-   ```bash
-   pnpm start
-   ```
+## 🎨 UI & Design System
 
-## Security Features
+### Component Libraries
+- **shadcn/ui**: Button, Card, Form, Input, Chart, Avatar, etc.
+- **Magic UI**: Aurora Text, Number Ticker, Box Reveal, Dot Pattern
+- **Custom**: Dashboard, Meal tracking, Authentication components
 
-- Server-side JWT verification
-- HTTP-only cookie support
-- CSRF protection via SameSite cookies
-- Secure cookie flags in production
-- Environment variable validation
-- Route-level authentication middleware
+### Theme & Styling
+- **CSS Framework**: Tailwind CSS v4 with custom design tokens
+- **Dark Mode**: System detection + manual toggle with next-themes
+- **Typography**: Manrope font with optimized loading
+- **Animations**: Framer Motion + CSS transitions
 
-## Browser Support
+### Charts & Data Visualization
+- **Library**: Recharts with custom theming
+- **Types**: Bar charts (calorie comparison), Pie charts (daily needs)
+- **Features**: Responsive, theme-aware, animated transitions
 
-- Chrome/Edge 88+
-- Firefox 78+
-- Safari 14+
-- Modern mobile browsers
+## 🚀 Development & Production
 
-## Contributing
+### Development Setup
+```bash
+# Environment
+cp .env.example .env.local  # Configure API_URL and JWT_SECRET
 
-1. Follow the existing code style and patterns
-2. Add TypeScript types for all new features
-3. Include proper error handling and loading states
-4. Test authentication flows thoroughly
-5. Update documentation for new features
+# Development
+pnpm dev          # Turbopack dev server (10x faster)
+pnpm lint         # ESLint + TypeScript checks
+pnpm type-check   # TypeScript compilation
+
+# Production
+pnpm build        # Optimized production build
+pnpm start        # Production server
+```
+
+### Code Quality
+- **TypeScript**: Strict mode with comprehensive type checking
+- **ESLint**: Next.js + TypeScript rules with error enforcement
+- **Environment**: Type-safe validation with @t3-oss/env-nextjs
+- **Forms**: React Hook Form + Zod runtime validation
+
+### Performance Features
+- **Turbopack**: Ultra-fast development builds
+- **Code Splitting**: Automatic route-based splitting
+- **Image Optimization**: Next.js automatic WebP/AVIF conversion
+- **Bundle Analysis**: Built-in analyzer for optimization
+
+## �️ Security & Best Practices
+
+### Security Implementation
+- **JWT Security**: JOSE library with 32+ character secrets
+- **HTTP-only Cookies**: Secure token storage with SameSite=strict
+- **Route Protection**: Middleware-based authentication verification
+- **CSRF Protection**: SameSite cookies prevent cross-site attacks
+- **Environment Validation**: Runtime type checking prevents misconfigurations
+
+### Code Quality Standards
+- **TypeScript Strict Mode**: Comprehensive type checking with strict rules
+- **ESLint Enforcement**: Next.js + TypeScript rules with error prevention
+- **Form Validation**: Runtime Zod schemas with user-friendly error messages
+- **Error Boundaries**: Graceful error handling with toast notifications
+
+## 🌐 Browser Support
+
+**Modern Browsers**: Chrome/Edge 88+, Firefox 78+, Safari 14+, Mobile Chrome/Safari  
+**Performance Targets**: LCP < 2.5s, FID < 100ms, CLS < 0.1
+
+## 🤝 Contributing
+
+### Development Workflow
+```bash
+git clone <repository> && cd frontend
+pnpm install && cp .env.example .env.local
+# Edit .env.local with your API URL and JWT secret
+pnpm dev
+```
+
+### Code Style Guidelines
+- **Components**: Use TypeScript interfaces, handle loading states, include error boundaries
+- **Forms**: React Hook Form + Zod validation with proper error handling
+- **API Calls**: Use try/catch with toast notifications for user feedback
+- **State**: Prefer server state (API) over client state when possible
+
+## 🆘 Troubleshooting
+
+### Common Issues
+- **JWT Error**: Generate 32+ character secret with `openssl rand -base64 32`
+- **API Connection**: Verify backend running and CORS_ORIGIN configured
+- **Styling Issues**: Restart dev server after Tailwind config changes
+- **Build Errors**: Check TypeScript errors with `pnpm type-check`
+
+### Debug Commands
+```bash
+rm -rf .next                    # Clear Next.js cache
+rm -rf node_modules pnpm-lock.yaml && pnpm install  # Reset dependencies
+pnpm build && npx @next/bundle-analyzer  # Analyze bundle size
+```
+
+## � Documentation
+
+- [Next.js 15](https://nextjs.org/docs) - React framework
+- [Tailwind CSS v4](https://tailwindcss.com/docs) - Utility-first CSS
+- [shadcn/ui](https://ui.shadcn.com) - Component library
+- [Zustand](https://docs.pmnd.rs/zustand) - State management
+- [Zod](https://zod.dev) - Schema validation
+
+---
+
+**Built with ❤️ using Next.js 15, TypeScript, and modern web technologies.**

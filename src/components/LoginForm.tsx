@@ -101,6 +101,15 @@ export default function LoginForm({
           className="space-y-4"
           variants={itemVariants}
         >
+          {/* Hidden username field for password managers */}
+          <input
+            type="hidden"
+            name="username"
+            value={form.watch("email")}
+            autoComplete="username"
+            readOnly
+          />
+          
           <motion.div variants={itemVariants}>
             <FormField
               control={form.control}
@@ -119,6 +128,7 @@ export default function LoginForm({
                       <Input
                         type="email"
                         placeholder="Enter your email"
+                        autoComplete="email username"
                         className="transition-all duration-200 focus:ring-2 focus:ring-primary/20"
                         {...field}
                       />
@@ -148,6 +158,7 @@ export default function LoginForm({
                       <Input
                         type="password"
                         placeholder="Enter your password"
+                        autoComplete="current-password"
                         className="transition-all duration-200 focus:ring-2 focus:ring-primary/20"
                         {...field}
                       />
