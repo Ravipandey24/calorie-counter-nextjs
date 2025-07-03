@@ -21,6 +21,7 @@ api.interceptors.request.use((config) => {
           config.headers.Authorization = `Bearer ${state.token}`;
         }
       } catch (error) {
+        console.error('Error parsing auth storage:', error);
         // Silently handle auth storage parsing errors to avoid console debugger issues
         localStorage.removeItem('auth-storage');
       }
@@ -54,6 +55,7 @@ api.interceptors.response.use(
         toast.error('Network error. Please check your connection.');
       }
     } catch (handlingError) {
+      console.error('Error handling API error:', handlingError);
       // Silently handle any errors in error handling to prevent debugger issues
     }
     
@@ -126,6 +128,7 @@ const showRateLimitToast = (retryAfterSeconds: number) => {
           }
         });
       } catch (domError) {
+        console.error('Error updating rate limit toast:', domError);
         // Silently handle DOM manipulation errors to prevent debugger issues
       }
     }

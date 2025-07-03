@@ -11,7 +11,6 @@ import {
   Database,
   Zap,
   TrendingUp,
-  Users,
   CheckCircle,
   Activity,
   Utensils,
@@ -20,10 +19,10 @@ import {
 import { AuroraText } from "@/components/magicui/aurora-text";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { InteractiveHoverButton } from "@/components/magicui/interactive-hover-button";
-import { DotPattern } from "@/components/magicui/dot-pattern";
+// import { DotPattern } from "@/components/magicui/dot-pattern";
 import { CalorieComparisonChart } from "@/components/CalorieComparisonChart";
 import { DailyCalorieNeedsChart } from "@/components/DailyCalorieNeedsChart";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 export default function HomePage() {
   // Chart data for calorie comparisons

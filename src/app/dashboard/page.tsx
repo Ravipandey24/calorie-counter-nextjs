@@ -2,9 +2,9 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getServerAuth } from "@/lib/auth-server";
 import DashboardContent from "@/components/DashboardContent";
-import { DotPattern } from "@/components/magicui/dot-pattern";
+// import { DotPattern } from "@/components/magicui/dot-pattern";
 import { Coffee } from "lucide-react";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 
 export default async function DashboardPage() {

@@ -2,11 +2,11 @@ import { Suspense } from 'react';
 import { redirect } from 'next/navigation';
 import { getServerAuth } from '@/lib/auth-server';
 import RegisterForm from '@/components/RegisterForm';
-import { DotPattern } from '@/components/magicui/dot-pattern';
+// import { DotPattern } from '@/components/magicui/dot-pattern';
 import { NumberTicker } from '@/components/magicui/number-ticker';
 import { Coffee, UserPlus, Utensils, Database, Zap } from 'lucide-react';
 import Link from 'next/link';
-import { cn } from '@/lib/utils';
+// import { cn } from '@/lib/utils';
 
 export default async function RegisterPage() {
   // Server-side authentication check

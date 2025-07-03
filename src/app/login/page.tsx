@@ -2,11 +2,11 @@ import { Suspense } from "react";
 import { redirect } from "next/navigation";
 import { getServerAuth } from "@/lib/auth-server";
 import LoginForm from "@/components/LoginForm";
-import { DotPattern } from "@/components/magicui/dot-pattern";
+// import { DotPattern } from "@/components/magicui/dot-pattern";
 import { NumberTicker } from "@/components/magicui/number-ticker";
 import { Coffee, LogIn, Activity, TrendingUp, Clock } from "lucide-react";
 import Link from "next/link";
-import { cn } from "@/lib/utils";
+// import { cn } from "@/lib/utils";
 
 interface LoginPageProps {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;

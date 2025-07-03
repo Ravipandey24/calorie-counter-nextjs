@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -35,9 +34,9 @@ export default function Header({ serverAuth }: HeaderProps) {
     router.push('/');
   };
 
-  // Use server auth for SSR, then client auth after hydration
-  const isAuthenticated = serverAuth?.isAuthenticated ?? false;
-  const user = serverAuth?.user;
+  // Use server auth for SSR, then client auth
+  const isAuthenticated = serverAuth?.isAuthenticated ?? clientAuth;
+  const user = serverAuth?.user ?? clientUser;
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
