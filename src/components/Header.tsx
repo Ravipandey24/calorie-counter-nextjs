@@ -35,7 +35,7 @@ export default function Header({ serverAuth }: HeaderProps) {
   };
 
   // Use server auth for SSR, then client auth
-  const isAuthenticated = serverAuth?.isAuthenticated ?? clientAuth;
+  const isAuthenticated = serverAuth?.isAuthenticated && clientAuth;
   const user = serverAuth?.user ?? clientUser;
   return (
     <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
