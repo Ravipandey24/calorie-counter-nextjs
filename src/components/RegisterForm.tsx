@@ -45,7 +45,7 @@ export default function RegisterForm() {
 
     try {
       const response = await authApi.register(data);
-      setAuth(response.user, response.token);
+      await setAuth(response.user, response.token);
       toast.success(
         "Account created successfully! Welcome to Calorie Counter."
       );

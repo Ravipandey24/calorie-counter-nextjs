@@ -49,7 +49,7 @@ export default function LoginForm({
     try {
       const response = await authApi.login(data);
 
-      setAuth(response.user, response.token);
+      await setAuth(response.user, response.token);
 
       toast.success("Login successful!", {
         description: "Welcome back! Redirecting to your dashboard...",

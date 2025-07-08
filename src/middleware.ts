@@ -24,6 +24,7 @@ async function verifyToken(token: string): Promise<boolean> {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  // console.log(`Middleware triggered for path: ${pathname}`);
   
   // Get token from cookies or Authorization header
   const token = request.cookies.get('auth-token')?.value || 

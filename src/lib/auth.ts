@@ -1,13 +1,14 @@
 import { create } from 'zustand';
 import { persist, createJSONStorage, StateStorage } from 'zustand/middleware';
 import type { User } from '@/types';
+import { revalidatePathAction } from '@/app/_actions/actions';
 
 interface AuthState {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
-  setAuth: (user: User, token: string) => void;
-  logout: () => void;
+  setAuth: (user: User, token: string) => Promise<void>;
+  logout: () => Promise<void>;
   hydrated: boolean;
   setHydrated: () => void;
 }
@@ -52,21 +53,23 @@ export const useAuthStore = create<AuthState>()(
       token: null,
       isAuthenticated: false,
       hydrated: false,
-      setAuth: (user, token) => {
+      setAuth: async (user, token) => {
         set({ user, token, isAuthenticated: true });
         
         // Set HTTP-only cookie for server-side access
         if (typeof window !== 'undefined') {
           document.cookie = `auth-token=${token}; path=/; max-age=${7 * 24 * 60 * 60}; samesite=strict; secure=${window.location.protocol === 'https:'}`;
         }
+        await revalidatePathAction('/'); // Revalidate the root path after login
       },
-      logout: () => {
+      logout: async () => {
         set({ user: null, token: null, isAuthenticated: false });
         
         // Remove HTTP-only cookie
         if (typeof window !== 'undefined') {
           document.cookie = 'auth-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT; samesite=strict';
         }
+        await revalidatePathAction('/'); // Revalidate the root path after logout
       },
       setHydrated: () => set({ hydrated: true }),
     }),
